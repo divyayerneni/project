@@ -33,5 +33,4 @@ header("Location: ../login.php?success=registered");
 echo "Database Error";
 
 }
-
 ?>
