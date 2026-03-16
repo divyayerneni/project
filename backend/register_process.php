@@ -1,20 +1,23 @@
 <?php
 
+session_start();
 include "config.php";
 
-$name   = $_POST['name'];
-$email  = $_POST['email'];
+$name = $_POST['name'];
+$email = $_POST['email'];
 $password = $_POST['password'];
 $branch = $_POST['branch'];
-$year   = $_POST['year'];
+$year = $_POST['year'];
 
-/* check if email already exists */
+/* check if email already registered */
 
 $check = mysqli_query($conn,"SELECT * FROM users WHERE email='$email'");
 
 if(mysqli_num_rows($check) > 0){
 
-header("Location: ../register.php?error=email");
+$_SESSION['error'] = "You are already registered. Please login.";
+
+header("Location: ../register.php");
 exit();
 
 }
@@ -26,11 +29,14 @@ VALUES('$name','$email','$password','$branch','$year')";
 
 if(mysqli_query($conn,$sql)){
 
-header("Location: ../login.php?success=registered");
+header("Location: ../login.php");
 
 }else{
 
-echo "Database Error";
+$_SESSION['error'] = "Registration failed. Try again.";
+
+header("Location: ../register.php");
 
 }
+
 ?>

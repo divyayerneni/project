@@ -1,6 +1,14 @@
 <?php
 session_start();
+
+/* destroy session */
+
+session_unset();
 session_destroy();
-header("Location: ../login.php");
+
+/* redirect to home page */
+
+header("Location: ../index.php");
 exit();
+
 ?>

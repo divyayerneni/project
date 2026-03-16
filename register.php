@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +28,6 @@ align-items:center;
 background:#f4f6fb;
 }
 
-/* register card */
-
 .form-box{
 width:420px;
 background:white;
@@ -36,7 +38,14 @@ box-shadow:0 10px 25px rgba(0,0,0,0.1);
 
 .form-box h2{
 text-align:center;
-margin-bottom:25px;
+margin-bottom:20px;
+}
+
+.error{
+color:red;
+text-align:center;
+margin-bottom:15px;
+font-size:14px;
 }
 
 .form-box input,
@@ -46,31 +55,19 @@ padding:10px;
 margin-bottom:15px;
 border:1px solid #ccc;
 border-radius:5px;
-font-size:14px;
 }
-
-/* password container */
 
 .password-box{
 position:relative;
 }
 
-.password-box input{
-width:100%;
-padding:10px;
-padding-right:40px;
-}
-
-.eye{
+.password-box span{
 position:absolute;
-right:12px;
+right:10px;
 top:50%;
 transform:translateY(-50%);
 cursor:pointer;
-font-size:18px;
 }
-
-/* button */
 
 .form-box button{
 width:100%;
@@ -80,7 +77,6 @@ border:none;
 color:white;
 border-radius:5px;
 cursor:pointer;
-font-size:15px;
 }
 
 .form-box button:hover{
@@ -107,23 +103,23 @@ text-decoration:none;
 
 <h2>Create Account</h2>
 
+<?php
+if(isset($_SESSION['error'])){
+echo "<p class='error'>".$_SESSION['error']."</p>";
+unset($_SESSION['error']);
+}
+?>
+
 <form action="backend/register_process.php" method="POST">
 
 <input type="text" name="name" placeholder="Full Name" required>
 
 <input type="email" name="email" placeholder="Email Address" required>
 
-<!-- Password with eye -->
-
 <div class="password-box">
-
 <input type="password" name="password" id="password" placeholder="Password" required>
-
-<span class="eye" onclick="togglePassword()">👁</span>
-
+<span onclick="togglePassword()">👁</span>
 </div>
-
-<!-- Branch Dropdown -->
 
 <select name="branch" required>
 <option value="">Select Branch</option>
@@ -151,12 +147,12 @@ text-decoration:none;
 
 function togglePassword(){
 
-var password=document.getElementById("password");
+var pass=document.getElementById("password");
 
-if(password.type==="password"){
-password.type="text";
+if(pass.type==="password"){
+pass.type="text";
 }else{
-password.type="password";
+pass.type="password";
 }
 
 }

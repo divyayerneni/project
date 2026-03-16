@@ -5,8 +5,6 @@ if(!isset($_SESSION['user_id'])){
 header("Location: login.php");
 exit();
 }
-
-$category = $_GET['category'] ?? "";
 ?>
 
 <!DOCTYPE html>
@@ -67,9 +65,17 @@ color:#0d3b66;
 
 <label class="form-label">Category</label>
 
-<input type="text" class="form-control" value="<?php echo ucfirst($category); ?>" readonly>
+<select name="category" class="form-control" required>
+<option value="Hostel">Hostel</option>
+<option value="Mess">Mess</option>
+<option value="Academic">Academic</option>
+<option value="library">library</option>
+<option value="hospital">hospital</option>
+<option value="Infrastructure">Infrastructure</option>
+<option value="personal">personal</option>
+<option value="Auditorium">Auditorium</option>
 
-<input type="hidden" name="category" value="<?php echo $category; ?>">
+</select>
 
 </div>
 

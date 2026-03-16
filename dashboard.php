@@ -225,6 +225,7 @@ background:linear-gradient(45deg,#1cc88a,#13855c);
 <th>Photo</th>
 <th>Status</th>
 <th>Date</th>
+<th>Action</th>
 </tr>
 
 </thead>
@@ -243,6 +244,14 @@ echo "<tr>
 <td>".$image."</td>
 <td>".$row['status']."</td>
 <td>".$row['created_at']."</td>
+
+<td>
+<a href='backend/delete_complaint.php?id=".$row['id']."' 
+class='btn btn-danger btn-sm'>
+<i class='bi bi-trash'></i> Delete
+</a>
+</td>
+
 </tr>";
 
 }
