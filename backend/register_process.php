@@ -9,33 +9,44 @@ $password = $_POST['password'];
 $branch = $_POST['branch'];
 $year = $_POST['year'];
 
-/* check if email already registered */
+/* ✅ EMAIL FORMAT VALIDATION (RGUKT only) */
+
+if(!preg_match("/^[n][0-9]{6}@rguktn\.ac\.in$/", $email)){
+    $_SESSION['error'] = "Use valid RGUKT email (example: nxxxxxx@rguktn.ac.in)";
+    header("Location: ../register.php");
+    exit();
+}
+
+/* ✅ CHECK IF ALREADY REGISTERED */
 
 $check = mysqli_query($conn,"SELECT * FROM users WHERE email='$email'");
 
 if(mysqli_num_rows($check) > 0){
 
-$_SESSION['error'] = "You are already registered. Please login.";
-
-header("Location: ../register.php");
-exit();
+    $_SESSION['error'] = "You are already registered. Please login.";
+    header("Location: ../register.php");
+    exit();
 
 }
 
-/* insert new user */
+/* ✅ SECURE PASSWORD (HASH) */
+
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+/* ✅ INSERT USER */
 
 $sql = "INSERT INTO users(name,email,password,branch,year)
-VALUES('$name','$email','$password','$branch','$year')";
+VALUES('$name','$email','$hashed_password','$branch','$year')";
 
 if(mysqli_query($conn,$sql)){
 
-header("Location: ../login.php");
+    $_SESSION['success'] = "Registration successful. Please login.";
+    header("Location: ../login.php");
 
 }else{
 
-$_SESSION['error'] = "Registration failed. Try again.";
-
-header("Location: ../register.php");
+    $_SESSION['error'] = "Registration failed. Try again.";
+    header("Location: ../register.php");
 
 }
 

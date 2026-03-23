@@ -144,7 +144,7 @@ background:linear-gradient(45deg,#1cc88a,#13855c);
 
 <h4>Smart Campus</h4>
 
-<a href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
+<a href="index.php"><i class="bi bi-house-door-fill"></i> Home</a>
 
 <a href="submit_complaint.php"><i class="bi bi-pencil-square"></i> File Complaint</a>
 

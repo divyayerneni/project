@@ -8,19 +8,13 @@ exit();
 }
 
 /* complaints list */
-
 $result=mysqli_query($conn,"SELECT * FROM complaints ORDER BY created_at DESC");
 
 /* analytics */
-
 $total = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS total FROM complaints"))['total'];
-
 $pending = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS total FROM complaints WHERE status='Pending'"))['total'];
-
 $progress = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS total FROM complaints WHERE status='In Progress'"))['total'];
-
 $resolved = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS total FROM complaints WHERE status='Resolved'"))['total'];
-
 ?>
 
 <!DOCTYPE html>
@@ -37,18 +31,15 @@ $resolved = mysqli_fetch_assoc(mysqli_query($conn,"SELECT COUNT(*) AS total FROM
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 body{
 background:#f4f6fb;
 }
-
 .header{
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:30px;
 }
-
 </style>
 
 </head>
@@ -58,17 +49,13 @@ margin-bottom:30px;
 <div class="container mt-5">
 
 <div class="header">
-
 <h3>Admin Complaint Dashboard</h3>
-
 <a href="../backend/logout.php" class="btn btn-danger">Logout</a>
-
 </div>
 
 <!-- Analytics Chart -->
 
 <h5 class="mb-3">Complaint Analytics</h5>
-
 <canvas id="complaintChart" height="90"></canvas>
 
 <br><br>
@@ -86,6 +73,7 @@ margin-bottom:30px;
 <th>Title</th>
 <th>Photo</th>
 <th>Status</th>
+<th>Date</th> <!-- ✅ ADDED -->
 <th>Action</th>
 </tr>
 
@@ -96,13 +84,10 @@ while($row=mysqli_fetch_assoc($result)){
 $image = $row['image'] ? "<img src='../uploads/".$row['image']."' width='70'>" : "No Image";
 
 /* status color */
-
 $status_badge="badge bg-secondary";
 
 if($row['status']=="Pending") $status_badge="badge bg-warning";
-
 if($row['status']=="In Progress") $status_badge="badge bg-primary";
-
 if($row['status']=="Resolved") $status_badge="badge bg-success";
 
 echo "<tr>
@@ -119,11 +104,20 @@ echo "<tr>
 
 <td><span class='$status_badge'>".$row['status']."</span></td>
 
+<td>".date("d-m-Y h:i A", strtotime($row['created_at']))."</td> <!-- ✅ DATE -->
+
 <td>
 
 <a href='update_status.php?id=".$row['id']."&status=In Progress' class='btn btn-warning btn-sm'>Progress</a>
 
 <a href='update_status.php?id=".$row['id']."&status=Resolved' class='btn btn-success btn-sm'>Resolve</a>
+
+<!-- ✅ DELETE BUTTON -->
+<a href='delete_complaint.php?id=".$row['id']."' 
+class='btn btn-danger btn-sm'
+onclick=\"return confirm('Are you sure to delete this complaint?')\">
+Delete
+</a>
 
 </td>
 
